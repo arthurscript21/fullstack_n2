@@ -1,5 +1,7 @@
 import React from 'react';
 
+import DataCard from '../../components/admin/DataCard';
+import ModuleLink from '../../components/admin/ModuleLink';
 
 function AdminDashboard() {
   return (

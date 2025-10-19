@@ -1,19 +1,19 @@
 import React from 'react';
+// (Más adelante aquí importarás <Navigate> de 'react-router-dom')
 
-// Por ahora, este componente solo muestra a los "hijos" (children).
-// Más adelante, aquí pondrás la lógica para ver si el usuario
-// ha iniciado sesión o no.
 function ProtectedRoute({ children }) {
-  // Lógica de autenticación (ej. ¿está logueado?) irá aquí
-  const isAuth = true; // Cambia a 'false' para probar
+ 
+  // ¡REVISA ESTA LÍNEA!
+  const isAuth = true; // Esto está perfecto para probar
 
   if (!isAuth) {
-    // Si no está logueado, lo envías al Login
-    // (Necesitarás importar <Navigate> de 'react-router-dom')
+    // Si isAuth es false, te estará intentando redirigir a "/login"
     // return <Navigate to="/login" />;
+    return null; // O simplemente no muestra nada (pantalla en blanco)
   }
 
-  return children;
+  return children; // Solo muestra el AdminLayout si isAuth es true
 }
 
+// ¡Te faltaba esta línea!
 export default ProtectedRoute;

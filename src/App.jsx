@@ -1,41 +1,27 @@
 import { Routes, Route } from 'react-router-dom';
 
-// Importa tus páginas (¡con las rutas correctas!)
-
-
-// Importa tu Layout y tu Dashboard de admin
+// 1. Importa el "marco" y la "página"
 import AdminLayout from './layouts/AdminLayout.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
-
-// Importa tu ruta protegida (ver Paso 3)
-
 
 function App() {
   return (
     <Routes>
-      {/* --- Rutas Públicas --- */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-
-      {/* --- Rutas de Administración --- */}
-      {/* Este "Route" envuelve a todas las páginas de admin.
-        Usa el AdminLayout como "marco".
-      */}
-      <Route 
-        path="/admin" 
-        element={
-          <ProtectedRoute>
-            <AdminLayout />
-          </ProtectedRoute>
-        }
-      >
-        {/* La ruta "index" es lo que se muestra en "/admin" */}
-        <Route index element={<AdminDashboard />} /> 
+      {/* 2. Ruta "padre" para el admin */}
+      <Route path="/admin" element={<AdminLayout />}>
         
-        {/* Aquí agregarás las otras páginas del admin (Productos, Usuarios, etc.) */}
-        {/* <Route path="productos" element={<AdminProductos />} /> */}
-        {/* <Route path="usuarios" element={<AdminUsuarios />} /> */}
+        {/* 3. Ruta "hija" (la que se muestra por defecto) */}
+        {/* 'index' significa que esta es la página que se
+            mostrará en la ruta exacta del padre ("/admin") */}
+        <Route index element={<AdminDashboard />} />
+
+        {/* (Aquí pondremos las rutas de productos, usuarios, etc. más tarde) */}
+        {/* <Route path="productos" element={<AdminProducts />} /> */}
+      
       </Route>
+
+      {/* (Aquí pondremos las rutas públicas como Home y Login más tarde) */}
+      {/* <Route path="/" element={<HomePage />} /> */}
 
     </Routes>
   );
