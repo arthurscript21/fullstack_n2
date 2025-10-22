@@ -1,0 +1,41 @@
+{
+  "frutas": [
+    {
+      "id": 1,
+      "titulo": "Manzana",
+      "descripcion": "Una fruta roja y crujiente, ideal para snacks.",
+      "imagen": "https://ejemplo.com/imagenes/manzana.jpg",
+      "precio": 4000
+    },
+    {
+      "id": 2,
+      "titulo": "Plátano",
+      "descripcion": "Fruta amarilla rica en potasio.",
+      "imagen": "https://ejemplo.com/imagenes/platano.jpg",
+      "precio": 5000
+    },
+    {
+      "id": 3,
+      "titulo": "Naranja",
+      "descripcion": "Cítrico jugoso, alto en Vitamina C.",
+      "imagen": "https://ejemplo.com/imagenes/naranja.jpg",
+      "precio": 10000
+    }
+  ],
+  "verduras": [
+    {
+      "id": 4,
+      "titulo": "Zanahoria",
+      "descripcion": "Vegetal de raíz, bueno para la vista.",
+      "imagen": "https://ejemplo.com/imagenes/zanahoria.jpg",
+      "precio": 0.50
+    },
+    {
+      "id": 5,
+      "titulo": "Lechuga",
+      "descripcion": "Hojas verdes frescas, base para ensaladas.",
+      "imagen": "https://ejemplo.com/imagenes/lechuga.jpg",
+      "precio": 1.00
+    }
+  ]
+}

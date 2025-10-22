@@ -1,69 +1,63 @@
+// src/pages/Admin/AdminDashboard.jsx
 import React from 'react';
-
-import DataCard from '../../components/admin/DataCard';
-import ModuleLink from '../../components/admin/ModuleLink';
+import DashboardCard from '../../components/admin/DashboardCard';
+// Si usas react-icons u otra librería, importa los iconos aquí
+// import { FaBox, FaUsers, FaChartBar } from 'react-icons/fa';
 
 function AdminDashboard() {
+  // Datos de ejemplo (eventualmente vendrán de tu estado o API)
+  const productCount = 400; // [cite: 289]
+  const customerCount = 1890; // Similar a 'Usuarios' en Fig 9 [cite: 290]
+  const reportCount = 50; // Ejemplo para reportes
+
   return (
-    <div className="container-fluid px-4">
-      <h1 className="mt-4">Dashboard</h1>
-      <p className="mb-4">Resumen de las actividades diarias</p>
+    <div>
+      <h1>Dashboard</h1>
+      <p>Resumen de las actividades diarias</p> {/* [cite: 283] */}
 
       <div className="row">
-        <div className="col-xl-4 col-md-6">
-          <DataCard title="Compras" value="1,234" colorClass="text-bg-primary" />
+        {/* Tarjeta de Compras (ejemplo adaptado de Fig 9) */}
+        <div className="col-md-4">
+           <DashboardCard
+            title="Compras"
+             // [cite: 285]
+            color="primary"
+            // icon={<FaShoppingCart size={30} />} // Ejemplo con icono
+          />
         </div>
-        <div className="col-xl-4 col-md-6">
-          <DataCard title="Productos" value="400" colorClass="text-bg-success" />
+         {/* Tarjeta de Productos */}
+        <div className="col-md-4">
+          <DashboardCard
+            // [cite: 289]
+            value={productCount}
+            color="success"
+            // icon={<FaBox size={30} />}
+          />
         </div>
-        <div className="col-xl-4 col-md-6">
-          <DataCard title="Clientes" value="1,890" colorClass="text-bg-warning" />
+         {/* Tarjeta de Clientes/Usuarios */}
+         <div className="col-md-4">
+           <DashboardCard
+            title="Clientes" // O "Usuarios"
+            value={customerCount}
+            color="warning"
+            // icon={<FaUsers size={30} />}
+          />
         </div>
+         {/* Podrías añadir una tarjeta para Reportes si quieres */}
+         {/*
+         <div className="col-md-4">
+           <DashboardCard
+             title="Reportes"
+             value={reportCount}
+             color="info"
+             // icon={<FaChartBar size={30} />}
+           />
+         </div>
+         */}
       </div>
 
-      <h2 className="mt-4 mb-3">Módulos de Administración</h2>
-      <div className="row">
-        <ModuleLink 
-          title="Dashboard" 
-          description="Visión general de todas las métricas."
-          to="/" 
-        />
-        <ModuleLink 
-          title="Órdenes" 
-          description="Gestión y seguimiento de las órdenes."
-          to="/ordenes"
-        />
-        <ModuleLink 
-          title="Productos" 
-          description="Administrar inventario y detalles."
-          to="/productos"
-        />
-        <ModuleLink 
-          title="Categorías" 
-          description="Organizar productos por categorías."
-          to="/categorias"
-        />
-        <ModuleLink 
-          title="Usuarios" 
-          description="Gestión de cuentas de usuario y roles."
-          to="/usuarios"
-        />
-        <ModuleLink 
-          title="Reportes" 
-          description="Generación de informes detallados."
-          to="/reportes"
-        />
-        <ModuleLink 
-          title="Perfil" 
-          description="Administración de información personal."
-          to="/perfil"
-        />
-        <ModuleLink 
-          title="Tienda" 
-          description="Visualizar la tienda en tiempo real."
-          to="/tienda"
-        />
-      </div>
+       {/* Aquí podrías añadir más secciones como gráficos o tablas resumen */}
+
     </div>
   );
 }
