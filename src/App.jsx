@@ -1,50 +1,66 @@
 // src/App.jsx
-import { Routes, Route } from 'react-router-dom';
-import './App.css'; // Asegúrate que App.css exista o remueve esta línea
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importa Bootstrap globalmente
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 
-// Importa tus páginas y layouts
-// import Home from './pages/Home'; // Si tienes una página Home pública
-import AdminLayout from './layouts/AdminLayout.jsx';
-import AdminDashboard from './pages/admin/AdminDashboard.jsx';
-// Importa otras páginas de admin aquí a medida que las crees
-// import AdminProducts from './pages/Admin/AdminProducts';
+// Layouts y Páginas Importadas
+import StoreLayout from './layouts/StoreLayout';
+
+import Home from './pages/Tienda/Home';
+import Productos from './pages/Tienda/Productos';
+import DetalleProducto from './pages/Tienda/DetalleProducto';
+import Carrito from './pages/Tienda/Carrito';
+import Contacto from './pages/Tienda/Contacto';
+import Login from './pages/Tienda/Login';
+import Registro from './pages/Tienda/Registro';
+import Nosotros from './pages/Tienda/Nosotros.jsx'; // <-- Añade esta línea
+
+// Importaciones del Admin (AHORA DESCOMENTADAS)
+import AdminLayout from './layouts/AdminLayout.jsx'; // Asegúrate que este archivo exista
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'; // Asegúrate que este archivo exista
 
 function App() {
   return (
-    <>
-      {/* Navbar eliminado */}
+    <Routes>
+      {/* --- Rutas de la Tienda (Públicas) --- */}
+      <Route element={<StoreLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/productos" element={<Productos />} />
+        <Route path="/productos/:id" element={<DetalleProducto />} />
+        <Route path="/categoria/:categoryName" element={<Productos />} />
+        <Route path="/carrito" element={<Carrito />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/nosotros" element={<Nosotros />} />
+      </Route>
 
-      <Routes>
-        {/* Rutas Públicas - Puedes agregar una Home si la necesitas */}
-        {/* <Route path='/' element={<Home />} /> */}
-        {/* <Route path='/login' element={<Login />} /> */}
-        {/* ... otras rutas públicas ... */}
-
-        {/* Rutas de Administración anidadas bajo AdminLayout */}
-        <Route path="/admin" element={<AdminLayout />}>
-           {/* La ruta index (solo /admin) muestra el dashboard */}
-          <Route index element={<AdminDashboard />} />
-
-          {/* Otras rutas de admin irán aquí */}
-           <Route path="productos" element={<div>Página de Productos Admin</div>} /> {/* Ejemplo */}
-           <Route path="ordenes" element={<div>Página de Órdenes Admin</div>} /> {/* Ejemplo */}
-           <Route path="categorias" element={<div>Página de Categorías Admin</div>} /> {/* Ejemplo */}
-           <Route path="usuarios" element={<div>Página de Usuarios Admin</div>} /> {/* Ejemplo */}
-           <Route path="reportes" element={<div>Página de Reportes Admin</div>} /> {/* Ejemplo */}
-           {/* <Route path="productos" element={<AdminProducts />} /> */}
-           {/* ... otras rutas de admin ... */}
-        </Route>
-
-        {/* Ruta principal si no hay home, podría redirigir a /admin o mostrar algo */}
-        <Route path="/" element={<div><h1>Bienvenido</h1><p>Ir a <a href="/admin">Admin</a></p></div>} />
+      {/* --- Rutas del Admin (AHORA ACTIVAS) --- */}
+      {/* Cualquier ruta que empiece con /admin usará AdminLayout */}
+      <Route path="/admin/*" element={<AdminLayout />}>
+           {/* La ruta exacta /admin mostrará el AdminDashboard */}
+           {/* NOTA: Para que rutas anidadas funcionen DENTRO de AdminDashboard,
+               ese componente necesitaría su propio <Routes> y <Route>.
+               Por simplicidad ahora, /admin/* carga AdminLayout y dentro se renderizará AdminDashboard
+               si la ruta es /admin o /admin/loquesea (porque usamos '*' y AdminDashboard es el único elemento).
+               Una estructura más robusta definiría rutas anidadas aquí.
+           */}
+            <Route path="*" element={<AdminDashboard />} />
+           {/* Aquí podrías añadir más rutas específicas del admin si las necesitas,
+               por ejemplo: <Route path="usuarios" element={<AdminUsuarios />} /> */}
+      </Route>
 
 
-        {/* Puedes añadir una ruta para página no encontrada */}
-        {/* <Route path="*" element={<h1>404 - Página no encontrada</h1>} /> */}
-
-      </Routes>
-    </>
+      {/* --- Ruta para páginas no encontradas (404) --- */}
+      <Route path="*" element={
+        <StoreLayout> {/* Mantenemos el layout de la tienda para el 404 */}
+          <div className="container text-center py-5">
+            <h2>404 - Página no encontrada</h2>
+            <p>Lo sentimos, la página que buscas no existe.</p>
+            <Link to="/" className="btn btn-primary">Volver al Inicio</Link>
+          </div>
+        </StoreLayout>
+      } />
+    </Routes>
   );
 }
 
