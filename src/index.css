@@ -1,68 +1,157 @@
+/* src/index.css */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Paleta de colores de fullstack_p1/README.md y styles.css */
+  --verde-esmeralda: #2E8B57; /* */
+  --amarillo-mostaza: #FFD700; /* */
+  --marron-claro: #8B4513;     /* */
+  --blanco-suave: #F7F7F7;   /* */
+  --gris-oscuro: #333333;    /* */
+  --gris-medio: #666666;     /* */
+  --verde-primario: #27ae60;   /* Usado en navbar de styles.css */
+  --azul-oscuro: #2c3e50;      /* Usado en footer de styles.css */
+  --link-hover-color: #f1c40f; /* Color hover de links en navbar/footer de styles.css */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  /* Fuentes de fullstack_p1/README.md */
+  --font-main: 'Montserrat', sans-serif; /* */
+  --font-headings: 'Playfair Display', serif; /* */
 }
 
 body {
+  font-family: var(--font-main);
+  background-color: var(--blanco-suave);
+  color: var(--gris-oscuro);
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  /* Opcional: Añadir la textura sutil si la deseas */
+  /* background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
+  color: var(--marron-claro);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+/* --- Estilos adaptados de fullstack_p1/sic/tienda/styles.css --- */
+
+/* Navbar */
+.navbar-custom {
+  background-color: var(--verde-primario) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: white !important;
+}
+.navbar-nav .nav-link {
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  color: rgba(255, 255, 255, 0.85) !important;
+  transition: color 0.3s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active { /* React Router usa la clase 'active' por defecto */
+  color: var(--link-hover-color) !important;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Footer */
+.footer {
+  background-color: var(--azul-oscuro);
+  color: white;
+  padding: 2rem 0; /* Añadido padding para mejor apariencia */
+}
+.footer a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer a:hover {
+  color: var(--link-hover-color);
+}
+.footer h5 {
+  color: white; /* Asegura que los títulos del footer sean blancos */
+}
+
+
+/* Botones (Sobrescribe Bootstrap si es necesario) */
+.btn-primary {
+  background-color: var(--verde-esmeralda);
+  border-color: var(--verde-esmeralda);
+  transition: all 0.3s;
+}
+.btn-primary:hover {
+  background-color: #267349; /* Un tono más oscuro */
+  border-color: #267349;
+  transform: translateY(-2px);
+}
+.btn-outline-primary {
+  color: var(--verde-esmeralda);
+  border-color: var(--verde-esmeralda);
+}
+.btn-outline-primary:hover {
+  background-color: var(--verde-esmeralda);
+  color: white;
+}
+.btn-success { /* Botón 'Agregar al carrito' usa btn-success en el HTML original */
+   background-color: var(--amarillo-mostaza);
+   border-color: var(--amarillo-mostaza);
+   color: var(--gris-oscuro);
+}
+.btn-success:hover {
+   background-color: #e6b800; /* Amarillo más oscuro */
+   border-color: #e6b800;
+   color: var(--gris-oscuro);
+}
+
+
+/* Cards (Estilo general) */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover; /* Asegura que la imagen cubra el espacio */
+}
+
+/* Estilo específico para tarjetas de producto */
+.product-card .card-img-top {
+  height: 200px; /* Altura fija para consistencia */
+}
+
+/* Precio del producto */
+.product-price {
+  color: var(--verde-esmeralda);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Títulos de sección */
+.section-title {
+  position: relative;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--verde-esmeralda);
+}
+
+/* Otros estilos globales que necesites... */
+main {
+  min-height: calc(100vh - 250px); /* Ajusta este valor según altura de Navbar/Footer */
 }
