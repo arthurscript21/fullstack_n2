@@ -1,0 +1,323 @@
+/* src/admin-styles.css */
+
+/* --- Paleta de Colores --- */
+:root {
+  /* Verdes */
+  --verde-principal: #2E8B57; /* Verde Esmeralda (Principal para acciones, activo) */
+  --verde-oscuro: #276a44;   /* Verde más oscuro para hover/detalles */
+  --verde-claro: #e9f5ee;    /* Verde muy claro para fondos sutiles/hover */
+
+  /* Cafés */
+  --cafe-principal: #8B4513; /* Café (SaddleBrown) (Para títulos, logo) */
+  --cafe-claro: #a0522d;     /* Café más claro (Sienna) para acentos */
+  --cafe-muy-claro: #f5f0e9; /* Un beige/crema muy claro para fondos */
+
+  /* Neutros */
+  --blanco: #ffffff;
+  --blanco-suave: #F7F7F7; /* Fondo principal suave */
+  --gris-borde: #dee2e6;  /* Gris claro para bordes */
+  --gris-texto: #555555;   /* Gris oscuro para texto general */
+  --gris-medio: #888888;   /* Gris medio para texto secundario */
+
+  /* Fuentes (Mantenemos las de p1) */
+  --font-body: 'Montserrat', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+
+  /* Otros */
+  --radio-borde: 8px; /* Bordes redondeados consistentes */
+  --sombra-suave: 0 4px 15px rgba(0, 0, 0, 0.08); /* Sombra estándar */
+}
+
+/* --- Estilos Globales --- */
+body {
+  font-family: var(--font-body);
+  background-color: var(--blanco-suave); /* Fondo general blanco suave */
+  color: var(--gris-texto);
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--cafe-principal); /* Títulos en café principal */
+}
+
+#root {
+   text-align: initial;
+}
+
+/* --- Layout Principal (AdminLayout) --- */
+.admin-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+/* --- Sidebar (Sidebar.jsx) --- */
+.admin-sidebar {
+  background: var(--blanco); /* Sidebar blanca */
+  padding: 20px;
+  border-right: 1px solid var(--gris-borde);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+}
+
+.admin-sidebar .logo-text {
+  font-family: var(--font-heading);
+  font-size: 1.6rem; /* Un poco más grande */
+  font-weight: 700;
+  color: var(--cafe-principal); /* Logo en café */
+  margin-bottom: 25px;
+  text-decoration: none;
+  text-align: center; /* Centrar logo */
+}
+
+.admin-sidebar nav a {
+  display: block;
+  padding: 12px 15px; /* Más padding vertical */
+  color: var(--gris-texto);
+  text-decoration: none;
+  border-radius: var(--radio-borde);
+  margin-bottom: 8px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-sidebar nav a.active,
+.admin-sidebar nav a:hover {
+  background: var(--verde-principal); /* Fondo verde al seleccionar/hover */
+  color: var(--blanco); /* Texto blanco */
+}
+
+/* Botones Sidebar (Perfil y Logout) */
+.sidebar-button {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: none;
+  background: transparent; /* Fondo transparente por defecto */
+  border-radius: var(--radio-borde);
+  cursor: pointer;
+  transition: background 0.16s;
+  font-family: var(--font-body);
+  text-align: left;
+  border-top: 1px solid var(--gris-borde); /* Separador superior */
+  padding-top: 1rem;
+}
+.sidebar-button:hover {
+  background: var(--cafe-muy-claro); /* Hover con fondo crema */
+}
+.sidebar-profile-btn {
+    margin-top: 1rem; /* Espacio antes del perfil */
+}
+.sidebar-logout-btn {
+    color: var(--cafe-claro); /* Logout en café claro */
+    font-weight: bold;
+    margin-top: auto; /* Empuja hacia abajo */
+}
+.sidebar-logout-btn:hover { background: #fdf5ed; } /* Hover naranja muy claro */
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--cafe-principal); /* Fondo si la imagen falla */
+}
+.profile-info { display: flex; flex-direction: column; align-items: flex-start; }
+.profile-name { font-weight: 600; color: var(--gris-oscuro); font-size: 0.95rem; }
+.profile-role { color: var(--gris-medio); font-size: 0.85rem; }
+
+
+/* --- Main Content Area (AdminLayout) --- */
+.admin-main-content {
+  padding: 30px; /* Más padding */
+  background-color: var(--blanco-suave);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar dentro del Main */
+.admin-topbar {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--gris-borde);
+}
+.admin-topbar h2 {
+    font-size: 1.8rem;
+    color: var(--cafe-principal); /* Título en café */
+    margin-bottom: 5px;
+}
+.admin-topbar p {
+  color: var(--gris-medio);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* --- Cards (DashboardCard) --- */
+.dashboard-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Ancho mínimo mayor */
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.dashboard-card {
+  background: var(--blanco);
+  padding: 25px;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-suave);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid transparent; /* Sin borde inicial */
+  position: relative; /* Para pseudo-elementos si quieres */
+  overflow: hidden; /* Para pseudo-elementos */
+}
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--verde-claro); /* Borde verde claro al pasar el ratón */
+}
+.dashboard-card h3 {
+  font-size: 0.9rem;
+  color: var(--gris-medio);
+  margin-bottom: 10px;
+  font-weight: 600; /* Un poco más grueso */
+  text-transform: uppercase;
+}
+.dashboard-card p {
+  font-size: 2rem; /* Valor más grande */
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+/* Colores específicos para los valores de las cards */
+.dashboard-card.card-productos p { color: var(--verde-principal); }
+.dashboard-card.card-usuarios p { color: var(--cafe-claro); }
+.dashboard-card.card-ingresos p { color: var(--cafe-principal); } /* Ingresos en café */
+
+/* --- Tablas (AdminUsers.jsx, AdminProducts.jsx) --- */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco);
+    border-radius: var(--radio-borde);
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+    margin-top: 25px;
+}
+.admin-table thead {
+    background-color: var(--cafe-muy-claro); /* Cabecera con fondo crema */
+}
+.admin-table th, .admin-table td {
+    padding: 15px; /* Más padding */
+    text-align: left;
+    border-bottom: 1px solid var(--gris-borde);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+.admin-table th {
+    font-weight: 600;
+    color: var(--cafe-principal); /* Texto cabecera en café */
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px; /* Pequeño espacio entre letras */
+}
+.admin-table tbody tr:hover {
+    background-color: var(--verde-claro); /* Hover verde claro en filas */
+}
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.admin-table img { /* Estilo para imágenes en tabla (ej. productos) */
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px; /* Bordes suaves para imágenes */
+    border: 1px solid var(--gris-borde);
+}
+/* Botones dentro de la tabla */
+.admin-table .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+.admin-table .btn-warning { /* Botón Editar */
+    background-color: var(--cafe-claro);
+    border-color: var(--cafe-claro);
+    color: var(--blanco);
+}
+.admin-table .btn-warning:hover {
+    background-color: var(--cafe-principal);
+    border-color: var(--cafe-principal);
+}
+.admin-table .btn-danger { /* Botón Eliminar */
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+.admin-table .btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+
+/* --- Botones --- */
+/* Botón Crear (Usuarios/Productos Header) */
+.btn-create-header {
+  background: var(--verde-principal); /* Botón crear en verde */
+  color: var(--blanco);
+  padding: 10px 20px;
+  border-radius: var(--radio-borde);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 0.95rem;
+}
+.btn-create-header:hover {
+  background: var(--verde-oscuro); /* Verde oscuro al pasar el ratón */
+  color: var(--blanco);
+}
+
+/* Botones genéricos primarios (ej. Guardar en formularios) */
+.btn-primary {
+  background: var(--verde-principal);
+  border-color: var(--verde-principal);
+  color: var(--blanco);
+  padding: 10px 20px;
+  border-radius: var(--radio-borde);
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background: var(--verde-oscuro);
+  border-color: var(--verde-oscuro);
+}
+
+/* Botones secundarios (ej. Cancelar) */
+.btn-secondary, .btn-outline-secondary {
+    border-color: var(--gris-borde);
+    color: var(--gris-texto);
+    padding: 10px 20px;
+    border-radius: var(--radio-borde);
+    font-weight: 500;
+}
+.btn-secondary:hover, .btn-outline-secondary:hover {
+    background-color: var(--gris-borde);
+    color: var(--gris-oscuro);
+}
+
+
+/* --- Footer (AdminLayout / Footer.jsx) --- */
+.admin-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+    color: var(--gris-medio);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--gris-borde);
+    background-color: var(--blanco); /* Footer blanco */
+}

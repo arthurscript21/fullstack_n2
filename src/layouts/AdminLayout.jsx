@@ -3,22 +3,22 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/admin/Sidebar';
 import Footer from '../components/admin/Footer';
-
+import '../admin-styles.css';
 function AdminLayout() {
   const layoutStyle = {
     display: 'flex',
-    minHeight: '100vh', // Ocupa toda la altura
+    minHeight: '100vh', 
   };
 
   const mainContentStyle = {
-    flexGrow: 1, // Ocupa el espacio restante
+    flexGrow: 1, 
     display: 'flex',
-    flexDirection: 'column', // Para que el footer se quede abajo
+    flexDirection: 'column', 
   };
 
    const contentWrapperStyle = {
-    padding: '2rem', // Espacio alrededor del contenido
-    flexGrow: 1, // Empuja el footer hacia abajo
+    padding: '2rem', 
+    flexGrow: 1, 
   };
 
 

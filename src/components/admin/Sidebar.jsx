@@ -1,63 +1,52 @@
-// src/components/Admin/Sidebar.jsx
+// src/components/admin/Sidebar.jsx
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Asegúrate de importar Bootstrap
+import { NavLink, useNavigate } from 'react-router-dom';
+// Asegúrate que admin-styles.css se importa en AdminLayout o aquí si prefieres
 
 function Sidebar() {
-  const navLinkStyle = ({ isActive }) => {
-    return {
-      color: isActive ? '#fff' : '#adb5bd',
-      backgroundColor: isActive ? '#0d6efd' : 'transparent',
-      display: 'block',
-      padding: '0.5rem 1rem',
-      borderRadius: '0.25rem',
-      textDecoration: 'none',
-      marginBottom: '0.25rem'
-    };
+  const navigate = useNavigate();
+  // ... (handleLogout y otras lógicas) ...
+
+  const handleLogout = () => {
+    if (confirm('¿Está seguro de que desea cerrar sesión?')) {
+      console.log('Cerrando sesión...');
+      navigate('/');
+    }
   };
 
-  const profileStyle = {
-    marginTop: 'auto', // Empuja el perfil hacia abajo
-    paddingTop: '1rem',
-    borderTop: '1px solid #495057' // Separador visual
-  }
-
   return (
-    <aside className="d-flex flex-column vh-100 p-3 text-white bg-dark" style={{ width: '280px' }}>
-      <a href="/admin" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        {/* Puedes poner un logo o nombre aquí */}
-        <span className="fs-4">Panel Admin</span>
-      </a>
-      <hr />
+    // Usa la clase CSS principal del sidebar
+    <aside className="admin-sidebar">
+      {/* Usa la clase CSS para el logo */}
+      <NavLink to="/admin" className="logo-text">
+        HuertoHogar
+      </NavLink>
+      <hr style={{ margin: '1rem 0 1.5rem 0', borderColor: '#eee' }} />
       <nav className="nav nav-pills flex-column mb-auto">
-        {/* Links basados en Figura 10 del PDF [cite: 310]*/}
-        <NavLink to="/admin" style={navLinkStyle} end>
-          {/* Icono (ejemplo, necesitarías una librería como react-icons) */}
-          Dashboard
-        </NavLink>
-        <NavLink to="/admin/ordenes" style={navLinkStyle}>
-          Órdenes/Boletas
-        </NavLink>
-        <NavLink to="/admin/productos" style={navLinkStyle}>
-          Producto
-        </NavLink>
-         <NavLink to="/admin/categorias" style={navLinkStyle}>
-          Categoría
-        </NavLink>
-        <NavLink to="/admin/usuarios" style={navLinkStyle}>
-          Usuario
-        </NavLink>
-        <NavLink to="/admin/reportes" style={navLinkStyle}>
-          Reportes
-        </NavLink>
-        {/* Agrega más NavLinks según sea necesario */}
+        {/* NavLink ya aplica la clase 'active' automáticamente */}
+        <NavLink to="/admin" end>Dashboard</NavLink>
+        <NavLink to="/admin/productos">Productos</NavLink>
+        <NavLink to="/admin/usuarios">Usuarios</NavLink>
+        {/* ... otros links ... */}
       </nav>
-      <hr />
-      {/* Perfil del Admin [cite: 280, 305] */}
-      <div style={profileStyle}>
-         {/* Aquí iría la info del perfil */}
-        <strong>Admin User</strong>
-        {/* Podrías añadir un botón de logout */}
+
+      {/* Botón Logout */}
+      <button className="sidebar-button sidebar-logout-btn" onClick={handleLogout}>
+        {/* Icono opcional */}
+        Cerrar sesión
+      </button>
+
+      {/* Perfil del Admin */}
+      <div className="sidebar-button sidebar-profile-btn">
+         <img
+            src="https://ui-avatars.com/api/?name=Admin&background=8B4513&color=fff&size=40"
+            alt="Perfil"
+            className="profile-avatar"
+          />
+          <div className="profile-info">
+            <span className="profile-name">Admin</span>
+            <span className="profile-role">Administrador</span>
+          </div>
       </div>
     </aside>
   );
