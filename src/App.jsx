@@ -34,6 +34,7 @@ import AdminOrderDetail from './pages/admin/AdminOrderDetail';
 import AdminCategories from './pages/admin/AdminCategories';
 import EditUser from './pages/admin/EditUser';
 import AdminReports from './pages/admin/AdminReports';
+import UserPurchaseHistory from './pages/admin/UserPurchaseHistory';
 // ---------------------------------
 
 function App() {
@@ -68,16 +69,17 @@ function App() {
            <Route path="ordenes/:id" element={<AdminOrderDetail />} />
            <Route path="productos" element={<AdminProducts />} />
            <Route path="productos/nuevo" element={<CreateProduct />} />
-           {/* Considera añadir ruta editar producto aquí si la necesitas */}
+           {/* <Route path="productos/editar/:productId" element={<EditProduct />} /> */}
            <Route path="usuarios" element={<AdminUsers />} />
            <Route path="usuarios/nuevo" element={<CreateUser />} />
            <Route path="usuarios/editar/:userId" element={<EditUser />} />
-           {/* --- AÑADIR RUTAS FALTANTES --- */}
-           <Route path="categorias" element={<AdminCategories />} /> {/* Ruta admin de categorías */}
+           {/* --- RUTA HISTORIAL USUARIO (AÑADIDA) --- */}
+           <Route path="usuarios/historial/:userIdentifier" element={<UserPurchaseHistory />} />
+           {/* --------------------------------------- */}
+           <Route path="categorias" element={<AdminCategories />} />
            <Route path="reportes" element={<AdminReports />} />
-           {/* ----------------------------- */}
         </Route>
-
+        
         {/* 404 */}
         <Route path="*" element={<div className="text-center py-5"><h1>404</h1><p>Página no encontrada</p></div>} />
       </Routes>

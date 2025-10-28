@@ -66,3 +66,98 @@ export const saveOrder = (newOrder) => { // <--- ¡ASEGÚRATE QUE ESTA FUNCIÓN 
 export const dispatchStorageUpdate = () => {
   window.dispatchEvent(new Event('storageUpdate'));
 };
+
+// src/utils/localStorageHelper.js
+// ... (otras funciones como getCart, saveCart, etc.)
+
+// --- AÑADE ESTA SECCIÓN PARA CATEGORÍAS ---
+const CATEGORIES_KEY = 'huertohogar_categories';
+
+// Datos iniciales si no hay nada guardado
+const initialCategories = [
+  { key: 'frutas', nombre: 'Frutas' },
+  { key: 'verduras', nombre: 'Verduras' },
+  { key: 'lacteos', nombre: 'Lácteos' },
+  { key: 'organicos', nombre: 'Orgánicos' },
+];
+
+// Obtener todas las categorías guardadas
+export const getCategories = () => {
+  try {
+    const storedCategories = localStorage.getItem(CATEGORIES_KEY);
+    if (storedCategories) {
+      return JSON.parse(storedCategories);
+    } else {
+      // Si no hay nada, inicializa con las categorías base
+      localStorage.setItem(CATEGORIES_KEY, JSON.stringify(initialCategories));
+      return initialCategories;
+    }
+  } catch (e) {
+    console.error("Error al leer las categorías", e);
+    return initialCategories; // Retorna iniciales en caso de error
+  }
+};
+
+// Guardar la lista COMPLETA de categorías
+export const saveCategories = (categories) => {
+  try {
+    localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories));
+    dispatchStorageUpdate(); // Notifica si algo depende de las categorías
+  } catch (e) {
+    console.error("Error al guardar las categorías", e);
+  }
+};
+
+// Añadir una nueva categoría (verifica duplicados por 'key')
+export const addCategory = (newCategory) => {
+  if (!newCategory || !newCategory.key || !newCategory.nombre) return false;
+  const categories = getCategories();
+  const lowerCaseKey = newCategory.key.toLowerCase().trim().replace(/\s+/g, '-'); // Normaliza la clave
+  if (categories.some(cat => cat.key === lowerCaseKey)) {
+    console.warn("Intento de añadir categoría duplicada:", lowerCaseKey);
+    return false; // Clave ya existe
+  }
+  const categoryToAdd = { ...newCategory, key: lowerCaseKey }; // Usa la clave normalizada
+  categories.push(categoryToAdd);
+  saveCategories(categories);
+  return true;
+};
+
+// Actualizar una categoría existente por su 'key'
+export const updateCategory = (categoryKey, updatedData) => {
+  let categories = getCategories();
+  const index = categories.findIndex(cat => cat.key === categoryKey);
+  if (index === -1) return false; // No encontrada
+
+  // No permitimos cambiar la 'key', solo el 'nombre'
+  categories[index] = { ...categories[index], nombre: updatedData.nombre };
+  saveCategories(categories);
+  return true;
+};
+
+// Eliminar una categoría por su 'key'
+export const deleteCategory = (categoryKey) => {
+  let categories = getCategories();
+  // **Importante:** Aquí deberías verificar si algún producto usa esta categoría antes de borrarla.
+  // Por simplicidad, ahora solo la filtramos.
+  // const products = getAdminProducts(); // Necesitarías importar getAdminProducts
+  // if (products.some(p => p.categoria === categoryKey)) {
+  //   alert(`No se puede eliminar la categoría "${categoryKey}" porque está asignada a uno o más productos.`);
+  //   return false;
+  // }
+  const updatedCategories = categories.filter(cat => cat.key !== categoryKey);
+  if (updatedCategories.length === categories.length) return false; // No se encontró/borró
+  saveCategories(updatedCategories);
+  return true;
+};
+
+// Función helper para obtener el nombre legible a partir de la clave
+export const getCategoryNameByKey = (key) => {
+    const categories = getCategories(); // Lee desde localStorage
+    const found = categories.find(cat => cat.key === key);
+    return found ? found.nombre : key; // Devuelve nombre o la clave si no se encuentra
+};
+
+// ---------------------------------------------
+
+// ... (resto de funciones como dispatchStorageUpdate)
