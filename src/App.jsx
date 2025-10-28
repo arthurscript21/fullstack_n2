@@ -18,7 +18,7 @@ import Perfil from './pages/Tienda/Perfil';
 import Categorias from './pages/Tienda/Categorias';
 import Ofertas from './pages/Tienda/Ofertas';
 import Blog from './pages/Tienda/Blog';
-import DetalleBlog from './pages/Tienda/DetalleBlog'; // <-- IMPORTAR DETALLE BLOG
+import DetalleBlog from './pages/Tienda/DetalleBlog';
 import Checkout from './pages/Tienda/Checkout';
 import PagoExitoso from './pages/Tienda/PagoExitoso';
 import PagoFallido from './pages/Tienda/PagoFallido';
@@ -30,6 +30,11 @@ import CreateProduct from './pages/admin/CreateProduct';
 import CreateUser from './pages/admin/CreateUser';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminOrderDetail from './pages/admin/AdminOrderDetail';
+// --- AÑADIR IMPORTS FALTANTES ---
+import AdminCategories from './pages/admin/AdminCategories';
+import EditUser from './pages/admin/EditUser';
+import AdminReports from './pages/admin/AdminReports';
+// ---------------------------------
 
 function App() {
   return (
@@ -47,16 +52,15 @@ function App() {
            <Route path="login" element={<Login />} />
            <Route path="registro" element={<Registro />} />
            <Route path="perfil" element={<Perfil />} />
-           <Route path="categorias" element={<Categorias />} />
+           <Route path="categorias" element={<Categorias />} /> {/* Ruta pública de categorías */}
            <Route path="ofertas" element={<Ofertas />} />
            <Route path="blog" element={<Blog />} />
-           {/* --- RUTA DETALLE BLOG --- */}
            <Route path="blog/:id" element={<DetalleBlog />} />
-           {/* ------------------------- */}
            <Route path="checkout" element={<Checkout />} />
            <Route path="pago-exitoso" element={<PagoExitoso />} />
            <Route path="pago-fallido" element={<PagoFallido />} />
         </Route>
+
         {/* Admin */}
         <Route path="/admin" element={<AdminLayout />}>
            <Route index element={<AdminDashboard />} />
@@ -64,9 +68,16 @@ function App() {
            <Route path="ordenes/:id" element={<AdminOrderDetail />} />
            <Route path="productos" element={<AdminProducts />} />
            <Route path="productos/nuevo" element={<CreateProduct />} />
+           {/* Considera añadir ruta editar producto aquí si la necesitas */}
            <Route path="usuarios" element={<AdminUsers />} />
            <Route path="usuarios/nuevo" element={<CreateUser />} />
+           <Route path="usuarios/editar/:userId" element={<EditUser />} />
+           {/* --- AÑADIR RUTAS FALTANTES --- */}
+           <Route path="categorias" element={<AdminCategories />} /> {/* Ruta admin de categorías */}
+           <Route path="reportes" element={<AdminReports />} />
+           {/* ----------------------------- */}
         </Route>
+
         {/* 404 */}
         <Route path="*" element={<div className="text-center py-5"><h1>404</h1><p>Página no encontrada</p></div>} />
       </Routes>

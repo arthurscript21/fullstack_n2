@@ -30,7 +30,7 @@ export const products = [
             'https://images.unsplash.com/photo-1580052614034-c55d20bfee3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
             'https://images.unsplash.com/photo-1587381420277-5c3c371c3ac4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
         ],
-        stock: 200,
+        stock: 9,
         descripcion: 'Jugosas y ricas en vitamina C, estas naranjas Valencia son ideales para zumos frescos y refrescantes. Cultivadas en condiciones climáticas óptimas que aseguran su dulzura y jugosidad.',
         origen: 'Región de Valparaíso, Chile'
     },

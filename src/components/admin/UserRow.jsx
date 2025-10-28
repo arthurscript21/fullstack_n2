@@ -1,22 +1,30 @@
 // src/components/admin/UserRow.jsx
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom"; // <-- Importar Link
 
 function UserRow({ user, onDelete }) {
   return (
     <tr>
       <td>{user.nombre}</td>
       <td>{user.email}</td>
-      <td>{user.telefono || '-'}</td> {/* Mostrar '-' si no hay teléfono */}
-      <td>{user.direccion || '-'}</td> {/* Mostrar '-' si no hay región/dirección */}
-      <td>{user.rol || 'Cliente'}</td> {/* Rol por defecto */}
+      <td>{user.telefono || "-"}</td>
+      <td>{user.direccion || "-"}</td>
+      <td>{user.rol || "Cliente"}</td>
       <td>
+        {/* --- AÑADIR BOTÓN EDITAR --- */}
+        <Link
+          to={`/admin/usuarios/editar/${user.id}`}
+          className="btn btn-warning btn-sm me-2"
+        >
+          Editar
+        </Link>
+        {/* --------------------------- */}
         <button
           className="btn btn-danger btn-sm"
-          onClick={() => onDelete(user.id)} // Llama a la función onDelete pasada como prop
+          onClick={() => onDelete(user.id)}
         >
           Eliminar
         </button>
-        {/* Podrías añadir un botón de Editar aquí */}
       </td>
     </tr>
   );
