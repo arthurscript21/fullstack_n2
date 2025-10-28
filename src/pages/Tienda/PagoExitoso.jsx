@@ -6,71 +6,98 @@ function PagoExitoso() {
   const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
-    // Recupera los detalles del pedido de sessionStorage
     const details = sessionStorage.getItem('lastOrderDetails');
     if (details) {
       setOrderDetails(JSON.parse(details));
-      sessionStorage.removeItem('lastOrderDetails'); // Limpia para no mostrarlo de nuevo
+      sessionStorage.removeItem('lastOrderDetails'); // Limpia
     }
-    // Si no hay detalles, podría redirigir o mostrar un mensaje genérico
   }, []);
 
+  // Función formatear fecha (igual que en AdminOrders)
+  const formatDate = (dateString) => {
+    if (!dateString) return '-'; try { const op={year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}; return new Date(dateString).toLocaleDateString('es-CL', op); } catch(e){ return dateString; }
+  };
+
+
   if (!orderDetails) {
+    // Mensaje genérico si no hay detalles (ej: si recarga la página)
     return (
       <div className="px-md-4 px-3 py-5 text-center">
-        <h2>¡Compra Realizada!</h2>
-        <p>Tu pedido ha sido procesado con éxito.</p>
+        <div className="alert alert-success">
+            <h2><i className="bi bi-check-circle-fill"></i> ¡Compra Realizada!</h2>
+            <p className="lead">Tu pedido ha sido procesado con éxito.</p>
+        </div>
         <Link to="/productos" className="btn btn-primary mt-3">Seguir Comprando</Link>
       </div>
     );
   }
 
-  // Calcula el total para mostrarlo (asumiendo envío estándar)
-  const subtotal = orderDetails.items.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
-  const shippingCost = 2500;
-  const total = subtotal + shippingCost;
+  // Cálculos de totales (igual que en Checkout)
+  const subtotal = orderDetails.items?.reduce((sum, item) => sum + item.precio * item.cantidad, 0) || 0;
+  const shippingCost = orderDetails.envio || 2500; // Usa el guardado o el default
+  const total = orderDetails.total || (subtotal + shippingCost);
 
   return (
-    // Sin container, con padding
-    <div className="px-md-4 px-3 py-5">
-      <div className="alert alert-success text-center">
-        <h2><i className="bi bi-check-circle-fill"></i> ¡Pago Exitoso!</h2>
-        <p className="lead">Gracias por tu compra, {orderDetails.nombre}.</p>
-        <p>Recibirás una confirmación en {orderDetails.email}.</p>
-      </div>
+    // Sin container global, con padding
+    <div className="px-md-4 px-3 py-5 bg-light"> {/* Fondo claro */}
+        <div className="container bg-white p-4 p-md-5 rounded shadow-sm"> {/* Container interno */}
 
-      <div className="row justify-content-center mt-4">
-        <div className="col-lg-8">
-          <h4>Resumen del Pedido</h4>
-          <div className="card">
-            <div className="card-body">
-              <p><strong>Enviado a:</strong> {orderDetails.direccion}, {orderDetails.comuna}, {orderDetails.region}</p>
-              {orderDetails.indicaciones && <p><strong>Indicaciones:</strong> {orderDetails.indicaciones}</p>}
-              <hr/>
-              <h5 className="mb-3">Productos:</h5>
-              {orderDetails.items.map(item => (
-                <div key={item.id} className="d-flex justify-content-between align-items-center mb-2">
-                   <div className="d-flex align-items-center">
-                      <img src={item.imagen || './placeholder.png'} alt={item.nombre} style={{ width: '30px', height: '30px', objectFit: 'contain', marginRight: '8px' }} />
-                      <span className="small">{item.nombre} x {item.cantidad}</span>
-                   </div>
-                   <span className="small">${(item.precio * item.cantidad).toLocaleString('es-CL')}</span>
-                </div>
-              ))}
-              <hr/>
-               <div className="d-flex justify-content-between"><span>Subtotal:</span><span>${subtotal.toLocaleString('es-CL')}</span></div>
-               <div className="d-flex justify-content-between"><span>Envío:</span><span>${shippingCost.toLocaleString('es-CL')}</span></div>
-               <hr/>
-               <div className="d-flex justify-content-between fw-bold fs-5"><span>Total Pagado:</span><span>${total.toLocaleString('es-CL')}</span></div>
+            {/* Mensaje de Éxito */}
+            <div className="alert alert-success text-center">
+                <h2><i className="bi bi-check-circle-fill me-2"></i> ¡Pago Exitoso!</h2>
+                <p className="lead mb-1">Gracias por tu compra, {orderDetails.cliente?.nombreCompleto || orderDetails.cliente?.nombre}.</p>
+                <p>Orden Nro: #{orderDetails.id.substring(orderDetails.id.lastIndexOf('_') + 1)}</p>
+                <p className="small">Recibirás una confirmación en {orderDetails.cliente?.email}.</p>
             </div>
-          </div>
-          <div className="text-center mt-4">
-            <Link to="/productos" className="btn btn-primary">Seguir Comprando</Link>
-          </div>
+
+            {/* Resumen del Pedido (similar a Figura 7) */}
+            <div className="row mt-4 g-4">
+                {/* Columna Izquierda: Cliente y Envío */}
+                <div className="col-md-6">
+                    <h5>Información del Cliente</h5>
+                    <p className="mb-1"><small><strong>Nombre:</strong> {orderDetails.cliente?.nombreCompleto || `${orderDetails.cliente?.nombre} ${orderDetails.cliente?.apellidos}`}</small></p>
+                    <p className="mb-1"><small><strong>Email:</strong> {orderDetails.cliente?.email}</small></p>
+                    {orderDetails.cliente?.telefono && <p className="mb-1"><small><strong>Teléfono:</strong> {orderDetails.cliente.telefono}</small></p>}
+
+                    <h5 className="mt-3">Dirección de Envío</h5>
+                    <p className="mb-1"><small>{orderDetails.cliente?.direccion}</small></p>
+                    {orderDetails.cliente?.departamento && <p className="mb-1"><small>Depto: {orderDetails.cliente.departamento}</small></p>}
+                    <p className="mb-1"><small>{orderDetails.cliente?.comuna}, {orderDetails.cliente?.region}</small></p>
+                    {orderDetails.cliente?.indicaciones && <p className="mb-1"><small><strong>Indicaciones:</strong> {orderDetails.cliente.indicaciones}</small></p>}
+                </div>
+
+                {/* Columna Derecha: Items y Total */}
+                <div className="col-md-6">
+                    <h5>Resumen de Compra</h5>
+                    <div className="table-responsive">
+                        <table className="table table-sm"> {/* table-sm para tabla más compacta */}
+                            <thead><tr><th>Producto</th><th className="text-center">Cant.</th><th className="text-end">Subtotal</th></tr></thead>
+                            <tbody>
+                                {orderDetails.items?.map(item => (
+                                    <tr key={item.id}>
+                                        <td><small>{item.nombre}</small></td>
+                                        <td className="text-center"><small>{item.cantidad}</small></td>
+                                        <td className="text-end"><small>${(item.precio * item.cantidad).toLocaleString('es-CL')}</small></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            <tfoot>
+                                <tr><td colSpan="2" className="text-end border-top pt-2">Subtotal:</td><td className="text-end border-top pt-2">${subtotal.toLocaleString('es-CL')}</td></tr>
+                                <tr><td colSpan="2" className="text-end">Envío:</td><td className="text-end">${shippingCost.toLocaleString('es-CL')}</td></tr>
+                                <tr className="fw-bold fs-5"><td colSpan="2" className="text-end pt-2">Total Pagado:</td><td className="text-end pt-2">${total.toLocaleString('es-CL')}</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                     <p className="text-center text-muted small mt-3">Fecha Orden: {formatDate(orderDetails.fecha)}</p>
+                </div>
+            </div>
+
+            {/* Botón Seguir Comprando */}
+            <div className="text-center mt-4">
+                <Link to="/productos" className="btn btn-primary">Seguir Comprando</Link>
+            </div>
         </div>
-      </div>
     </div>
   );
 }
-
 export default PagoExitoso;

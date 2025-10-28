@@ -4,13 +4,16 @@ import { useParams, Link } from 'react-router-dom';
 import { getPostById } from '../../data/blogData'; // Importa la función
 
 function DetalleBlog() {
-  const { id } = useParams();
+  const { id } = useParams(); // Obtiene el 'id' del post desde la URL
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    setPost(getPostById(id));
-  }, [id]);
+    // Busca el post correspondiente al ID
+    const foundPost = getPostById(id);
+    setPost(foundPost);
+  }, [id]); // Se ejecuta si el id cambia
 
+  // Muestra mensaje si el post no se encuentra
   if (!post) {
     return (
       <div className="px-md-4 px-3 py-5 text-center">
@@ -21,7 +24,7 @@ function DetalleBlog() {
     );
   }
 
-  // Función para renderizar HTML (¡OJO CON LA SEGURIDAD SI EL HTML NO ES DE CONFIANZA!)
+  // Función para renderizar HTML (¡Ojo con la seguridad!)
   const createMarkup = (htmlString) => ({ __html: htmlString || '' });
 
   return (
