@@ -190,3 +190,40 @@ footer .container {
     padding-left: var(--bs-gutter-x, 0.75rem); /* Usa variables de Bootstrap si están disponibles */
     padding-right: var(--bs-gutter-x, 0.75rem);
 }
+
+/* Badge de Oferta */
+.badge.bg-danger {
+  /* Puedes ajustar el color si prefieres otro rojo */
+  font-size: 0.75em; /* Un poco más pequeño */
+  padding: 0.35em 0.6em;
+  z-index: 10; /* Asegura que esté por encima de la imagen */
+}
+
+/* Precio Original Tachado (ya usa text-decoration-line-through de Bootstrap) */
+.text-decoration-line-through {
+  vertical-align: middle; /* Alinea mejor con el precio de oferta */
+}
+
+/* Precio de Oferta (opcional si quieres más énfasis) */
+.product-price.text-danger {
+  color: #dc3545 !important; /* Rojo Bootstrap */
+}
+
+/* Precio Normal (ya definido antes como text-success) */
+.product-price.text-success {
+    color: var(--verde-esmeralda) !important; /* Verde Esmeralda */
+}
+
+/* Ajustes menores a la tarjeta para consistencia */
+.card-title.fs-6 {
+    font-size: 1rem !important; /* Asegura tamaño 1rem */
+    min-height: 2.4em; /* Espacio para 2 líneas de título aprox */
+    margin-bottom: 0.25rem !important;
+}
+.card-text.small {
+    font-size: 0.8em;
+}
+.card-body .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
