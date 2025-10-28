@@ -1,11 +1,27 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* src/index.css - CORREGIDO (Llave faltante revisada) */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* 1. Definición de Colores y Fuentes (basado en fullstack_p1/styles.css) */
+:root {
+  /* Paleta de Colores de la Tienda (p1) */
+  --verde-primario: #27ae60;      /* Navbar */
+  --verde-esmeralda: #2E8B57;     /* Botones, acentos */
+  --amarillo-mostaza: #FFD700;    /* Ofertas, badges */
+  --marron-claro: #803f11;        /* Títulos */
+  --azul-oscuro: #2c3e50;         /* Footer */
+  --blanco-suave: #F7F7F7;        /* Fondo principal */
+  --blanco: #ffffff;
+  --gris-oscuro: #333333;         /* Texto principal */
+  --gris-medio: #666666;          /* Texto secundario */
+  --gris-borde: #dee2e6;          /* Bordes (Bootstrap) */
+  --color-danger: #e74c3c;        /* Para botones 'Eliminar' */
+
+  /* Fuentes */
+  --font-body: 'Montserrat', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+
+  /* Estilos base */
+  color: var(--gris-oscuro);
+  background-color: var(--blanco-suave);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +29,164 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* 2. Estilos Globales */
 body {
+  font-family: var(--font-body);
+  color: var(--gris-oscuro);
+  background-color: var(--blanco-suave) !important;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--font-heading);
+  color: var(--marron-claro);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Estilo para Títulos de Sección */
+.section-title {
+  font-family: var(--font-heading);
+  color: var(--marron-claro);
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+} /* <-- LA LLAVE DE CIERRE VA AQUÍ */
+
+/* Línea decorativa bajo el título */
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--verde-esmeralda);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* --- Sobreescribir Estilos de Bootstrap para la Tienda --- */
+
+/* Navbar */
+.navbar.navbar-custom { /* Añade navbar-custom para especificidad si es necesario */
+  background-color: var(--verde-primario) !important;
+}
+.navbar .navbar-brand {
+    font-family: var(--font-heading);
+    color: var(--blanco) !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500;
+}
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: var(--amarillo-mostaza) !important;
+}
+.navbar .navbar-toggler-icon {
+     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+.navbar .badge {
+    background-color: var(--amarillo-mostaza) !important;
+    color: var(--gris-oscuro) !important;
+}
+/* Estilo para botón outline amarillo */
+.navbar .btn-outline-warning {
+    color: var(--amarillo-mostaza) !important;
+    border-color: var(--amarillo-mostaza) !important;
+}
+.navbar .btn-outline-warning:hover {
+    color: var(--gris-oscuro) !important;
+    background-color: var(--amarillo-mostaza) !important;
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--azul-oscuro) !important;
+    color: var(--blanco) !important;
+}
+footer a {
+    color: var(--blanco) !important;
+    text-decoration: none;
+}
+footer a:hover {
+    color: var(--amarillo-mostaza) !important;
+}
+footer h5 {
+    color: var(--blanco) !important;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--verde-esmeralda) !important;
+  border-color: var(--verde-esmeralda) !important;
+  color: var(--blanco) !important;
+}
+.btn-primary:hover {
+  background-color: #267349 !important;
+  border-color: #267349 !important;
+}
+.btn-outline-primary {
+  color: var(--verde-esmeralda) !important;
+  border-color: var(--verde-esmeralda) !important;
+}
+.btn-outline-primary:hover {
+  background-color: var(--verde-esmeralda) !important;
+  color: var(--blanco) !important;
+}
+.btn-danger {
+    background-color: var(--color-danger) !important;
+    border-color: var(--color-danger) !important;
+}
+.btn-danger:hover {
+    background-color: #c0392b !important;
+    border-color: #c0392b !important;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* --- Clases Específicas de la Tienda --- */
+.text-secondary-custom {
+  color: var(--gris-medio) !important;
+}
+.product-price {
+    color: var(--verde-esmeralda);
+    font-weight: 700;
+}
+.hero-section {
+    color: var(--blanco);
+    border-radius: 10px;
+    position: relative;
+    padding: 6rem 0;
+    text-align: center;
+}
+.hero-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    z-index: 1;
+}
+.hero-section .container {
+    position: relative; z-index: 2;
+}
+.hero-section h1 { color: var(--blanco); }
+.bg-pattern { background-color: var(--blanco); }
+
+/* Ajuste para que el container dentro del footer no tenga padding extra */
+footer .container {
+    padding-left: var(--bs-gutter-x, 0.75rem); /* Usa variables de Bootstrap si están disponibles */
+    padding-right: var(--bs-gutter-x, 0.75rem);
 }

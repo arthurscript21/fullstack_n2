@@ -1,6 +1,6 @@
 // src/layouts/StoreLayout.jsx
 import React from 'react';
-import { Outlet } from 'react-router-dom'; // Outlet renderiza el contenido de la ruta hija
+import { Outlet } from 'react-router-dom';
 import Navbar from '../components/store/Navbar';
 import Footer from '../components/store/Footer';
 
@@ -8,9 +8,9 @@ function StoreLayout() {
   return (
     <div>
       <Navbar />
-      {/* El contenido principal de cada página se renderizará aquí */}
+      {/* El main ahora no tiene un contenedor global */}
       <main>
-          <Outlet />
+        <Outlet /> {/* Cada página pondrá su propio contenedor si lo necesita */}
       </main>
       <Footer />
     </div>
