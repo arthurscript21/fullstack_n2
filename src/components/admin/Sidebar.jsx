@@ -25,6 +25,7 @@ function Sidebar() {
       <nav className="nav nav-pills flex-column mb-auto">
         {/* NavLink ya aplica la clase 'active' automáticamente */}
         <NavLink to="/admin" end>Dashboard</NavLink>
+        <NavLink to="/admin/ordenes">Órdenes</NavLink> {/* <-- AÑADIDO AQUÍ */}
         <NavLink to="/admin/productos">Productos</NavLink>
         <NavLink to="/admin/usuarios">Usuarios</NavLink>
         {/* ... otros links ... */}
