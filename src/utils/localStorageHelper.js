@@ -40,9 +40,15 @@ export const logoutUser = () => { // <--- ASEGÚRATE QUE TENGA 'export' Y EL NOM
     localStorage.removeItem(USER_KEY);
     dispatchStorageUpdate(); // Avisa que el usuario cerró sesión
 };
-// ----------------------------------------------------
 
-// --- Lista de Usuarios ---
+export const saveUsersList = (users) => {
+    try {
+        localStorage.setItem(USERS_LIST_KEY, JSON.stringify(users));
+    } catch (e) {
+        console.error("Error al guardar lista de usuarios", e);
+    }
+};
+
 export const getUsersList = () => {
     try {
         const users = localStorage.getItem(USERS_LIST_KEY);
