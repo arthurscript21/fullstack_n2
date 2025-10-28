@@ -9,11 +9,11 @@ import { getLoggedInUser, logoutUser, getCart, dispatchStorageUpdate } from '../
 
 function Navbar() {
   const [user, setUser] = useState(null);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0); // Renombrado de cartItemCount para claridad
   const navigate = useNavigate();
 
   // Función para actualizar el estado del navbar
-  const updateNavbarState = () => {
+  const updateNavbarState = () => { // Renombrado de updateStateFromStorage
     setUser(getLoggedInUser());
     const currentCart = getCart();
     const totalItems = currentCart.reduce((sum, item) => sum + (item.cantidad || 0), 0);
@@ -30,10 +30,13 @@ function Navbar() {
   }, []); // Array vacío para ejecutar solo al montar/desmontar
 
   const handleLogout = () => {
-    if (confirm('¿Está seguro de que desea cerrar sesión?')) {
-      logoutUser(); // Llama a la función correcta
-      updateNavbarState(); // Actualiza el estado del Navbar
-      navigate('/'); // Redirige al inicio
+    if (confirm('¿Está seguro de que desea cerrar sesión?')) { // Agregado confirmación
+        logoutUser(); // Llama a la función correcta
+        // Opcional: limpiar carrito al cerrar sesión (descomenta si lo necesitas)
+        // clearCart();
+        updateNavbarState(); // Actualiza el estado del Navbar inmediatamente
+        // dispatchStorageUpdate(); // No es estrictamente necesario aquí si ya actualizas localmente
+        navigate('/'); // Redirige al inicio
     }
   };
 
@@ -62,14 +65,16 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavStore">
           {/* Links Principales */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item"><NavLink className="nav-link" to="/" end>Inicio</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/categorias">Categorías</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/productos">Productos</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/ofertas">Ofertas</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/nosotros">Nosotros</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link" to="/contacto">Contacto</NavLink></li>
-            {/* <li className="nav-item"><NavLink className="nav-link" to="/blog">Blog</NavLink></li> */}
-            {user && user.role === 'admin' && ( <li className="nav-item"><Link className="nav-link text-warning fw-bold" to="/admin">Admin</Link></li> )}
+             <li className="nav-item"><NavLink className="nav-link" to="/" end>Inicio</NavLink></li>
+             <li className="nav-item"><NavLink className="nav-link" to="/categorias">Categorías</NavLink></li>
+             <li className="nav-item"><NavLink className="nav-link" to="/productos">Productos</NavLink></li>
+             <li className="nav-item"><NavLink className="nav-link" to="/ofertas">Ofertas</NavLink></li>
+             <li className="nav-item"><NavLink className="nav-link" to="/nosotros">Nosotros</NavLink></li>
+             <li className="nav-item"><NavLink className="nav-link" to="/contacto">Contacto</NavLink></li>
+             {/* --- LINK BLOG (Visible) --- */}
+             <li className="nav-item"><NavLink className="nav-link" to="/blog">Blog</NavLink></li>
+             {/* ------------------------- */}
+             {user && user.role === 'admin' && ( <li className="nav-item"><Link className="nav-link text-warning fw-bold" to="/admin">Admin</Link></li> )}
           </ul>
 
           {/* Carrito y Login/Usuario */}
@@ -81,6 +86,7 @@ function Navbar() {
               </NavLink>
             </li>
             {user ? (
+              // Menú desplegable si está logueado
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hola, {user.nombre}</a>
                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
@@ -90,6 +96,7 @@ function Navbar() {
                 </ul>
               </li>
             ) : (
+              // Botones si no está logueado
               <>
                 <li className="nav-item"><NavLink className="nav-link" to="/login">Iniciar Sesión</NavLink></li>
                 <li className="nav-item"><NavLink className="btn btn-sm btn-outline-warning ms-lg-2" to="/registro">Crear Cuenta</NavLink></li>
