@@ -30,12 +30,10 @@ import CreateProduct from './pages/admin/CreateProduct';
 import CreateUser from './pages/admin/CreateUser';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminOrderDetail from './pages/admin/AdminOrderDetail';
-// --- AÑADIR IMPORTS FALTANTES ---
 import AdminCategories from './pages/admin/AdminCategories';
 import EditUser from './pages/admin/EditUser';
 import AdminReports from './pages/admin/AdminReports';
 import UserPurchaseHistory from './pages/admin/UserPurchaseHistory';
-// ---------------------------------
 
 function App() {
   return (
@@ -53,7 +51,7 @@ function App() {
            <Route path="login" element={<Login />} />
            <Route path="registro" element={<Registro />} />
            <Route path="perfil" element={<Perfil />} />
-           <Route path="categorias" element={<Categorias />} /> {/* Ruta pública de categorías */}
+           <Route path="categorias" element={<Categorias />} /> 
            <Route path="ofertas" element={<Ofertas />} />
            <Route path="blog" element={<Blog />} />
            <Route path="blog/:id" element={<DetalleBlog />} />

@@ -1,19 +1,17 @@
 /* src/index.css - CORREGIDO (Llave faltante revisada) */
-
-/* 1. Definición de Colores y Fuentes (basado en fullstack_p1/styles.css) */
 :root {
   /* Paleta de Colores de la Tienda (p1) */
-  --verde-primario: #27ae60;      /* Navbar */
-  --verde-esmeralda: #2E8B57;     /* Botones, acentos */
-  --amarillo-mostaza: #FFD700;    /* Ofertas, badges */
-  --marron-claro: #803f11;        /* Títulos */
-  --azul-oscuro: #2c3e50;         /* Footer */
-  --blanco-suave: #F7F7F7;        /* Fondo principal */
+  --verde-primario: #27ae60;      
+  --verde-esmeralda: #2E8B57;     
+  --amarillo-mostaza: #FFD700;    
+  --marron-claro: #803f11;        
+  --azul-oscuro: #2c3e50;         
+  --blanco-suave: #F7F7F7;        
   --blanco: #ffffff;
-  --gris-oscuro: #333333;         /* Texto principal */
-  --gris-medio: #666666;          /* Texto secundario */
-  --gris-borde: #dee2e6;          /* Bordes (Bootstrap) */
-  --color-danger: #e74c3c;        /* Para botones 'Eliminar' */
+  --gris-oscuro: #333333;         
+  --gris-medio: #666666;          
+  --gris-borde: #dee2e6;          
+  --color-danger: #e74c3c;        
 
   /* Fuentes */
   --font-body: 'Montserrat', sans-serif;
@@ -51,8 +49,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   position: relative;
   padding-bottom: 10px;
   text-align: center;
-} /* <-- LA LLAVE DE CIERRE VA AQUÍ */
-
+}
 /* Línea decorativa bajo el título */
 .section-title::after {
   content: '';
@@ -67,8 +64,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 /* --- Sobreescribir Estilos de Bootstrap para la Tienda --- */
 
-/* Navbar */
-.navbar.navbar-custom { /* Añade navbar-custom para especificidad si es necesario */
+.navbar.navbar-custom {
   background-color: var(--verde-primario) !important;
 }
 .navbar .navbar-brand {
@@ -185,39 +181,34 @@ footer h5 {
 .hero-section h1 { color: var(--blanco); }
 .bg-pattern { background-color: var(--blanco); }
 
-/* Ajuste para que el container dentro del footer no tenga padding extra */
+
 footer .container {
-    padding-left: var(--bs-gutter-x, 0.75rem); /* Usa variables de Bootstrap si están disponibles */
+    padding-left: var(--bs-gutter-x, 0.75rem);
     padding-right: var(--bs-gutter-x, 0.75rem);
 }
 
-/* Badge de Oferta */
 .badge.bg-danger {
-  /* Puedes ajustar el color si prefieres otro rojo */
-  font-size: 0.75em; /* Un poco más pequeño */
+
+  font-size: 0.75em;
   padding: 0.35em 0.6em;
-  z-index: 10; /* Asegura que esté por encima de la imagen */
+  z-index: 10; 
 }
 
-/* Precio Original Tachado (ya usa text-decoration-line-through de Bootstrap) */
 .text-decoration-line-through {
-  vertical-align: middle; /* Alinea mejor con el precio de oferta */
+  vertical-align: middle;
 }
 
-/* Precio de Oferta (opcional si quieres más énfasis) */
 .product-price.text-danger {
-  color: #dc3545 !important; /* Rojo Bootstrap */
+  color: #dc3545 !important; 
 }
 
-/* Precio Normal (ya definido antes como text-success) */
 .product-price.text-success {
-    color: var(--verde-esmeralda) !important; /* Verde Esmeralda */
+    color: var(--verde-esmeralda) !important;
 }
 
-/* Ajustes menores a la tarjeta para consistencia */
 .card-title.fs-6 {
-    font-size: 1rem !important; /* Asegura tamaño 1rem */
-    min-height: 2.4em; /* Espacio para 2 líneas de título aprox */
+    font-size: 1rem !important;
+    min-height: 2.4em; 
     margin-bottom: 0.25rem !important;
 }
 .card-text.small {
