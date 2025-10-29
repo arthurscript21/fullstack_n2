@@ -1,106 +1,76 @@
-// tests/pages/Tienda/Login.test.jsx
+// tests/pages/Tienda/Login.test.jsx - CORREGIDO
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { vi } from 'vitest';
-import Login from '../../../src/pages/Tienda/Login'; // Ajusta la ruta
+import Login from '../../../src/pages/Tienda/Login';
 
 // --- Mocks ---
-
-// Mockear useNavigate (para verificar la redirección)
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal();
   return { ...actual, useNavigate: () => mockNavigate };
 });
 
-// Mockear AuthContext (para controlar la función login)
-const mockLogin = vi.fn();
-const mockContextValue = {
-  user: null, // Usuario no logueado por defecto
-  login: mockLogin,
-  logout: vi.fn(),
-};
-vi.mock('../../../src/context/AuthContext', () => ({
-  useAuth: () => mockContextValue,
-}));
-
-// Mockear window.alert (el componente lo usa)
+const mockSaveLoggedInUser = vi.fn();
+const mockGetUsersList = vi.fn(() => []);
+vi.mock('../../../src/utils/localStorageHelper', async (importOriginal) => {
+    const actual = await importOriginal();
+    return { 
+        ...actual,
+        getLoggedInUser: vi.fn(() => null),
+        saveLoggedInUser: mockSaveLoggedInUser,
+        getUsersList: mockGetUsersList,
+        dispatchStorageUpdate: vi.fn(),
+    };
+});
 window.alert = vi.fn();
-
 // ----------------
 
 describe('Pruebas para Login (Tienda)', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Renderiza el componente
-    render(
-      <BrowserRouter>
-        <Login />
-      </BrowserRouter>
-    );
+    render(<BrowserRouter><Login /></BrowserRouter>);
   });
 
   it('CP1: Debe renderizar el formulario con email y contraseña', () => {
-    // ASSERT: Verifica que los campos principales existan
-    expect(screen.getByLabelText(/Correo Electrónico/i)).toBeInTheDocument();
+    // CORREGIDO: Usar etiqueta real "Correo"
+    expect(screen.getByLabelText(/Correo/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Contraseña/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Iniciar Sesión/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /¿No tienes cuenta\? Regístrate aquí/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Regístrate/i })).toBeInTheDocument();
   });
 
-  it('CP2: Debe llamar a la función login con credenciales válidas y redirigir', async () => {
-    // ARRANGE: Simular que la función login es exitosa
-    mockLogin.mockResolvedValue({ success: true, user: { email: 'admin@huerto.cl', rol: 'Admin' } });
+  it('CP2: Debe iniciar sesión como ADMIN y redirigir a /admin', async () => {
+    // CORREGIDO: Usar etiqueta real "Correo" y credenciales definidas en Login.jsx
+    fireEvent.change(screen.getByLabelText(/Correo/i), { target: { value: 'admin@correo.com' } });
+    fireEvent.change(screen.getByLabelText(/Contraseña/i), { target: { value: 'Admin123' } });
 
-    // ACT: Ingresar credenciales
-    fireEvent.change(screen.getByLabelText(/Correo Electrónico/i), { target: { value: 'admin@huerto.cl' } });
-    fireEvent.change(screen.getByLabelText(/Contraseña/i), { target: { value: 'admin123' } });
-
-    // Enviar formulario
     fireEvent.submit(screen.getByRole('button', { name: /Iniciar Sesión/i }));
 
-    // ASSERT
-    // 1. Verificar llamada al mock de login
-    expect(mockLogin).toHaveBeenCalledWith('admin@huerto.cl', 'admin123');
-
-    // 2. Esperar a que la redirección ocurra
+    expect(window.alert).toHaveBeenCalledWith('Inicio de sesión como Administrador exitoso.');
     await waitFor(() => {
-      // Como el usuario simulado es Admin, debería redirigir al panel
-      expect(mockNavigate).toHaveBeenCalledWith('/admin/dashboard'); 
+      expect(mockNavigate).toHaveBeenCalledWith('/admin');
     });
-
-    // 3. Verificar que no se mostró alerta de error
-    expect(window.alert).not.toHaveBeenCalled();
   });
 
-  it('CP3: Debe mostrar alerta si las credenciales son inválidas', async () => {
-    // ARRANGE: Simular que la función login falla
-    mockLogin.mockResolvedValue({ success: false, message: 'Credenciales inválidas.' });
-
-    // ACT: Ingresar credenciales inválidas y enviar
-    fireEvent.change(screen.getByLabelText(/Correo Electrónico/i), { target: { value: 'fallo@huerto.cl' } });
+  it('CP3: Debe mostrar error si las credenciales son inválidas', async () => {
+    mockGetUsersList.mockReturnValueOnce([]);
+    
+    fireEvent.change(screen.getByLabelText(/Correo/i), { target: { value: 'fallo@huerto.cl' } });
     fireEvent.change(screen.getByLabelText(/Contraseña/i), { target: { value: 'clavemala' } });
     fireEvent.submit(screen.getByRole('button', { name: /Iniciar Sesión/i }));
 
-    // ASSERT
-    await waitFor(() => {
-        expect(window.alert).toHaveBeenCalledWith('Error al iniciar sesión: Credenciales inválidas.');
-    });
-    
-    // Verificar que NO hubo navegación
+    // CORREGIDO: Buscar el texto de error que se muestra en el DOM
+    expect(await screen.findByText(/Correo o contraseña incorrectos./i)).toBeInTheDocument();
     expect(mockNavigate).not.toHaveBeenCalled();
   });
-
+  
   it('CP4: Debe mostrar error si faltan campos al enviar', async () => {
-    // ACT: Intentar enviar sin ingresar nada
+    // No rellenar nada, solo enviar
     fireEvent.submit(screen.getByRole('button', { name: /Iniciar Sesión/i }));
 
-    // ASSERT: El componente debería mostrar el mensaje de validación del navegador (requerido)
-    // Pero si se usan las validaciones del componente, podríamos testear eso.
-    // Asumiendo que el componente maneja el error si los campos están vacíos (aunque sea por el `required`):
-    expect(mockLogin).not.toHaveBeenCalled();
-    // No podemos testear fácilmente los errores `required` de HTML con RTL, 
-    // pero verificamos que no intenta llamar a la función de autenticación.
+    // El componente maneja el error con setError y lo muestra
+    expect(await screen.findByText(/Por favor, ingresa correo y contraseña./i)).toBeInTheDocument();
   });
 });
